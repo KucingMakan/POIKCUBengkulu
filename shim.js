@@ -21,10 +21,12 @@
       .then(function (r) { return r.json(); })
       .then(function (j) {
         if (!j || !j.ok) throw new Error("bad");
-        var changed = JSON.stringify(j.data) !== JSON.stringify(cache);
-        cache = Object.assign({ followups: {}, pois: {}, poiedits: {}, selling: {} }, j.data);
+        var next = Object.assign({ followups: {}, pois: {}, poiedits: {}, selling: {} }, j.data);
+        // only re-render the collections that actually changed (each one rebuilds the whole map on a phone)
+        var changed = Object.keys(next).filter(function (c) { return JSON.stringify(next[c]) !== JSON.stringify(cache[c]); });
+        cache = next;
         failing = false;
-        if (changed || !loaded) emitAll();
+        if (!loaded) emitAll(); else changed.forEach(emit);
         loaded = true;
       })
       .catch(function (e) {
