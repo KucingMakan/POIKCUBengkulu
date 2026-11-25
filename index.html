@@ -773,6 +773,30 @@ body{transition:none}
 .gh .rtfrom select{flex:1;min-width:0}
 .lktools{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}.lktools .inp{width:100%;min-width:0}
 .lkcard .ket{overflow-wrap:anywhere}
+/* v29: "Lainnya" filter menu */
+.xmore{position:relative}
+.xmore>summary{list-style:none;cursor:pointer}
+.xmore>summary::-webkit-details-marker{display:none}
+.xmore>summary .chev{color:var(--muted);transition:transform .2s var(--ease)}
+.xmore[open]>summary .chev{transform:rotate(180deg)}
+.xmore>summary[aria-pressed="true"]{background:var(--teal-2);border-color:var(--teal);color:var(--teal)}
+.xmcount{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--teal);color:#fff;font-size:11.5px;font-weight:800;font-variant-numeric:tabular-nums}
+.xmcount[hidden]{display:none}
+.xmpop{position:absolute;right:0;top:calc(100% + 6px);z-index:40;width:max-content;min-width:300px;max-width:calc(100vw - 32px);background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-2);padding:6px;transform-origin:top right;animation:xmpop .16s var(--ease) both}
+@keyframes xmpop{from{opacity:0;transform:scale(.97) translateY(-4px)}}
+.xmpop label{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer}
+.xmpop label span{flex:1}
+.xmpop label small{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.xmpop input{width:18px;height:18px;margin:0;accent-color:var(--teal);flex:none}
+@media (hover:hover) and (pointer:fine){.xmpop label:hover{background:var(--bg-2)}}
+.xmpop .mfoot{display:flex;justify-content:flex-end;gap:8px;padding:8px 6px 4px;margin-top:4px;border-top:1px solid var(--line)}
+@media (max-width:640px){
+  .pfilters .xmore>summary{width:100%;justify-content:center;min-height:42px}
+  .pfilters .xmore[open]{grid-column:1/-1}
+  .xmpop{position:static;width:auto;min-width:0;max-width:none;margin-top:8px;box-shadow:none;animation:none}
+  .xmpop label{min-height:44px}
+}
+@media (prefers-reduced-motion:reduce){.xmpop{animation:none}}
 .brand-mark.logo{background:none;box-shadow:none;overflow:hidden;border-radius:10px}.brand-mark.logo img{width:100%;height:100%;display:block}
 </style>
 
@@ -867,7 +891,7 @@ body{transition:none}
         <select class="inp" id="fStatus"><option value="all">Semua status</option><option value="belum">Belum dihubungi</option><option value="ulang">Hubungi ulang</option></select>
         <label class="sr" for="fSort">Urutkan</label>
         <select class="inp" id="fSort"><option value="km">Terdekat dulu</option><option value="rt">Ulasan terbanyak</option><option value="name">Nama A–Z</option></select>
-        <button class="chip t" type="button" id="phBtn" aria-pressed="false">Ada nomor telepon</button>
+        <details class="xmore" id="xmBox"><summary class="chip t" id="xmBtn" aria-label="Filter lainnya"><span>Lainnya</span><b class="xmcount" id="xmN" hidden></b><svg class="chev" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><div class="xmpop" id="xmPop" role="group" aria-label="Filter lainnya"></div></details>
         <button class="chip" type="button" id="sdBtn" aria-pressed="false">Selling Day</button>
         </div>
       </div>
@@ -1365,10 +1389,13 @@ $("#sdAll").onclick=()=>go("selling");
 function renderProds(){$("#prodGrid").innerHTML=PRODUCTS.map(p=>`<div class="card pc ${p.g} reveal"><span class="tag ${p.g}">${PGN[p.g]}</span><h3>${esc(p.n)}</h3><p>${esc(p.p)}</p><p class="for">Cocok untuk <b>${p.seg.map(s=>SEGN[s]).join(", ")}</b></p></div>`).join("")}
 
 /* ---------- list ---------- */
-const F={ring:0,q:"",group:"all",status:"all",sort:"km",sd:false,ph:false,page:1};
+const F={ring:0,q:"",group:"all",status:"all",sort:"km",sd:false,more:new Set(),page:1};
+const MORE=[["tel","Ada nomor telepon",p=>!!p.ph],["notel","Tanpa nomor telepon",p=>!p.ph],["lok","Lokasi belum pasti",p=>p.loc>1&&!p.custom],
+  ["ramai","Ramai pengunjung (≥100 ulasan)",p=>(p.rt||0)>=100],["rating","Rating bagus (≥4,5, min. 10 ulasan)",p=>(p.av||0)>=4.5&&(p.rt||0)>=10],["web","Ditambahkan di web",p=>!!p.custom]];
+const MOREF=Object.fromEntries(MORE.map(([k,,f])=>[k,f])),MOREX={tel:"notel",notel:"tel"};
 const PAGE=40;
 function filtered(){const q=F.q.trim().toLowerCase();
-  const l=POIS.filter(p=>onMap(p.id)&&(!F.ring||p.ring===F.ring)&&(F.group==="all"||p.g===F.group)&&(F.status==="all"||stOf(p.id)===F.status)&&(!F.sd||p.sd)&&(!F.ph||p.ph)&&(!q||(p.n+" "+catLabel(p.k)+" "+p.kec+" "+p.a).toLowerCase().includes(q)));
+  const l=POIS.filter(p=>onMap(p.id)&&(!F.ring||p.ring===F.ring)&&(F.group==="all"||p.g===F.group)&&(F.status==="all"||stOf(p.id)===F.status)&&(!F.sd||p.sd)&&(!F.more.size||[...F.more].every(k=>MOREF[k](p)))&&(!q||(p.n+" "+catLabel(p.k)+" "+p.kec+" "+p.a).toLowerCase().includes(q)));
   const me=F.sort==="me"&&ME,dm=p=>(p.x-ME.x)**2+(p.y-ME.y)**2;
   return l.sort(me?(a,b)=>dm(a)-dm(b):F.sort==="name"?(a,b)=>a.n.localeCompare(b.n,"id"):F.sort==="rt"?(a,b)=>(b.rt||0)-(a.rt||0):(a,b)=>a.km-b.km)}
 function renderListKpi(){const base=F.ring?POIS.filter(p=>p.ring===F.ring):POIS,c=counts(base);
@@ -1848,16 +1875,25 @@ addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(VIEWS.inclu
 addEventListener("resize",()=>{if(VIEW==="daftar")moveInd()});
 $("#q").addEventListener("input",e=>{F.q=e.target.value;F.page=1;refreshList()});
 $("#fGroup").innerHTML=`<option value="all">Semua kategori</option>`+GROUPS.map(([g,l])=>`<option value="${g}">${l}</option>`).join("");
-function fBadge(){const n=(F.group!=="all")+(F.status!=="all")+(F.sort!=="km")+(!!F.ph)+(!!F.sd),b=$("#fBadge");b.hidden=!n;b.textContent=n}
+function fBadge(){const n=(F.group!=="all")+(F.status!=="all")+(F.sort!=="km")+F.more.size+(!!F.sd),b=$("#fBadge");b.hidden=!n;b.textContent=n}
 $("#fToggle").onclick=()=>{const t=$("#fToggle"),o=t.getAttribute("aria-expanded")!=="true";t.setAttribute("aria-expanded",o);$("#pFilters").classList.toggle("open",o)};
-["#fGroup","#fStatus","#fSort"].forEach(s=>$(s).addEventListener("change",()=>setTimeout(fBadge)));["#phBtn","#sdBtn"].forEach(s=>$(s).addEventListener("click",()=>setTimeout(fBadge)));
+["#fGroup","#fStatus","#fSort"].forEach(s=>$(s).addEventListener("change",()=>setTimeout(fBadge)));$("#sdBtn").addEventListener("click",()=>setTimeout(fBadge));
 $("#fGroup").addEventListener("change",e=>{F.group=e.target.value;F.page=1;refreshList()});
 $("#fStatus").addEventListener("change",e=>{F.status=e.target.value;F.page=1;refreshList()});
 if(GH)$("#fSort").insertAdjacentHTML("beforeend",'<option value="me">Terdekat dari posisi saya</option>');
 let ME_LIST=null;
 $("#fSort").addEventListener("change",e=>{F.sort=e.target.value;F.page=1;if(F.sort==="me"){ME_LIST=ME?{...ME}:null;startGeo(listMap)}renderList()});
 $("#sdBtn").addEventListener("click",e=>{F.sd=!F.sd;e.currentTarget.setAttribute("aria-pressed",F.sd);F.page=1;refreshList()});
-$("#phBtn").addEventListener("click",e=>{F.ph=!F.ph;e.currentTarget.setAttribute("aria-pressed",F.ph);F.page=1;refreshList()});
+function renderMore(){const base=POIS.filter(p=>onMap(p.id)),n=F.more.size;
+  $("#xmPop").innerHTML=MORE.map(([k,l,f])=>`<label><input type="checkbox" value="${k}"${F.more.has(k)?" checked":""}><span>${l}</span><small>${nf(base.filter(f).length)}</small></label>`).join("")
+    +`<div class="mfoot"><button type="button" class="btn ghost sm" id="xmClr"${n?"":" disabled"}>Hapus pilihan</button><button type="button" class="btn primary sm" id="xmOk">Selesai</button></div>`;
+  $("#xmN").hidden=!n;$("#xmN").textContent=n;$("#xmBtn").setAttribute("aria-pressed",!!n);
+  $$("#xmPop input").forEach(i=>i.onchange=()=>{const k=i.value;if(i.checked){F.more.add(k);if(MOREX[k])F.more.delete(MOREX[k])}else F.more.delete(k);F.page=1;refreshList();renderMore();fBadge()});
+  $("#xmClr").onclick=()=>{F.more.clear();F.page=1;refreshList();renderMore();fBadge()};
+  $("#xmOk").onclick=()=>{$("#xmBox").open=false;$("#xmBtn").focus()}}
+$("#xmBox").addEventListener("toggle",()=>{if($("#xmBox").open)renderMore()});
+document.addEventListener("click",e=>{const b=$("#xmBox");if(b.open&&!e.composedPath().includes(b))b.open=false});
+document.addEventListener("keydown",e=>{const b=$("#xmBox");if(e.key==="Escape"&&b.open){b.open=false;$("#xmBtn").focus()}});
 $("#rStatus").addEventListener("change",()=>{RP=1;renderRekap()});
 document.addEventListener("focusin",e=>{if(innerWidth<=640&&e.target.matches&&e.target.matches("input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select"))document.body.classList.add("kb")});
 document.addEventListener("focusout",()=>setTimeout(()=>{const a=document.activeElement;if(!(a&&a.matches&&a.matches("input,textarea,select")))document.body.classList.remove("kb")},60));
