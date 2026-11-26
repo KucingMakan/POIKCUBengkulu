@@ -1046,7 +1046,7 @@ body{transition:none}
   </section>
   <section class="vmain">
     <div class="wrap">
-      <div class="ptools" style="margin:0 0 14px"><label class="sr" for="rStatus">Filter rekap</label><select class="inp" id="rStatus"><option value="done">Semua yang sudah di-follow up</option><option value="tertarik">Tertarik</option><option value="merchant">Sudah merchant BNI</option><option value="ulang">Hubungi ulang</option><option value="tidak">Tidak tertarik</option><option value="bukan">Bukan target</option></select></div>
+      <div class="ptools" style="margin:0 0 14px"><label class="sr" for="rStatus">Filter rekap</label><select class="inp" id="rStatus"><option value="done">Semua yang sudah di-follow up</option><option value="tertarik">Tertarik</option><option value="merchant">Sudah merchant BNI</option><option value="ulang">Hubungi ulang</option><option value="tidak">Tidak tertarik</option><option value="bukan">Bukan target</option><option value="latest">Terakhir di-follow up (terbaru dulu)</option></select></div>
       <div id="rList"></div>
     </div>
   </section>
@@ -1666,7 +1666,7 @@ function renderRekap(){renderSalesRekap();renderRkCal();
   const top=Object.entries(mix).sort((a,b)=>b[1]-a[1]),mx=top.length?top[0][1]:1;
   $("#pmix").innerHTML=top.length?top.map(([id,v])=>`<div class="mixrow"><span>${esc(PROD[id]?.n||id)}</span><span class="bar"><i style="--c:${PROD[id]?.g==="T"?"var(--orange)":PROD[id]?.g==="F"?"var(--ok)":"var(--teal)"};width:${v/mx*100}%"></i></span><b>${v}</b></div>`).join(""):`<p style="font-size:14px;color:var(--muted);margin-top:8px">Produk muncul di sini setelah ada usaha yang tertarik atau sudah jadi merchant.</p>`;
   const upd=id=>{const f=fuOf(id);return (f&&(f.updatedAt||f.visitDate))||""};
-  const fv=$("#rStatus").value,all=POIS.filter(p=>{const s=stOf(p.id);return fv==="done"?s!=="belum":s===fv}).sort((a,b)=>ST_ORDER.indexOf(stOf(a.id))-ST_ORDER.indexOf(stOf(b.id))||upd(b.id).localeCompare(upd(a.id))),list=all.slice(0,RP*24);
+  const fv=$("#rStatus").value,all=POIS.filter(p=>{const s=stOf(p.id);return fv==="done"||fv==="latest"?s!=="belum":s===fv}).sort((a,b)=>fv==="latest"?upd(b.id).localeCompare(upd(a.id)):ST_ORDER.indexOf(stOf(a.id))-ST_ORDER.indexOf(stOf(b.id))||upd(b.id).localeCompare(upd(a.id))),list=all.slice(0,RP*24);
   $("#rList").innerHTML=list.length?`<div class="rcards">${list.map(p=>{const x=fuOf(p.id),s=x.status,src=srcOf(p.id),withP=s==="tertarik"||s==="merchant";return `<article class="card fcard"><div><div style="display:flex;gap:6px;flex-wrap:wrap"><span class="pill ${s}">${STATUS[s]}</span><span class="pill nophone">${src==="file"?"Dari file Excel":"Dicatat di web"}</span>${OFFMAP.has(s)?"":'<span class="pill nophone">Masih di peta</span>'}</div><h3 style="margin-top:8px">${esc(p.n)}</h3><div class="meta"><span>Ring ${p.ring}, ${fmtKm(p.km)}</span><span>${esc(catLabel(p.k))}</span>${x.visitDate?`<span>Dihubungi ${tgl(x.visitDate)}${x.rm?" oleh "+esc(x.rm):""}</span>`:""}</div></div>
     ${withP&&(x.products||[]).length?`<div style="display:flex;flex-wrap:wrap;gap:5px">${(x.products||[]).map(id=>PROD[id]?`<span class="tag ${PROD[id].g}">${esc(PROD[id].n)}</span>`:"").join("")}</div>`:""}
     ${withP&&(x.picName||x.picPhone)?`<div class="pic"><span>PIC <b>${esc(x.picName||"-")}</b></span><span>HP <b>${esc(x.picPhone||"-")}</b></span>${x.nextDate?`<span>Tindak lanjut <b>${tgl(x.nextDate)}</b></span>`:""}</div>`:""}
