@@ -86,7 +86,13 @@
     });
   }
 
-  function pull() {
+  var pulling = null;
+  function pull() {   // one request at a time; callers share the one in flight
+    if (pulling) return pulling;
+    pulling = pull1().then(function (r) { pulling = null; return r; }, function (e) { pulling = null; throw e; });
+    return pulling;
+  }
+  function pull1() {
     if (!ready) { NAMES.forEach(function (c) { (errs[c] || []).forEach(function (f) { f(new Error("no_url")); }); }); return Promise.resolve(); }
     return flush().then(function () {
       return fetch(URL_ + (URL_.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), { cache: "no-store" });
@@ -99,6 +105,7 @@
         failing = false;
         refresh(!loaded);
         loaded = true;
+        window.POI_LAST = Date.now(); tell("pulled");
       })
       .catch(function (e) {
         failing = true;
@@ -114,6 +121,8 @@
   }
   document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible" && loaded) pull(); });
   window.addEventListener("online", function () { if (loaded) pull(); });
+  // page asks for the latest data now (refresh button, opening or saving a business); restarts the 20 s timer
+  window.POI_PULL = function () { return pull().then(function () { if (started) schedule(); return !failing; }); };
 
   function isNet(e) { return !(e && e.server); }
   function write(op, c, id, data, extra) {

@@ -298,6 +298,7 @@ section.blk.alt{background:var(--bg-2)}
 .stable .sh{font-size:12px;font-weight:700;color:var(--muted)}
 .stable small{display:block;font-size:11.5px;color:var(--muted);font-weight:500}
 .stable .num{text-align:right;font-variant-numeric:tabular-nums}
+.stable .sh span:not(:first-child){text-align:right}
 @media (hover:hover) and (pointer:fine){.backlink:hover{background:var(--bg-2)}}
 .prow button.was{background:color-mix(in srgb,var(--teal) 12%,transparent);transition:background 1.2s}
 .plist-h{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--muted);flex-wrap:wrap}
@@ -797,6 +798,86 @@ body{transition:none}
   .xmpop label{min-height:44px}
 }
 @media (prefers-reduced-motion:reduce){.xmpop{animation:none}}
+/* v30: follow-up calendar */
+.knote{font-size:13.5px;color:var(--muted);margin:4px 0 10px}
+.mm{--cell:36px}
+.mm .mmh{display:flex;align-items:center;gap:4px;margin-bottom:6px}
+.mm .mmh b{flex:1;font-size:15px;font-weight:800;text-transform:capitalize}
+.mm .mmg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;text-align:center}
+.mm .wd{font-size:11px;font-weight:700;color:var(--muted);padding:4px 0}
+.mm .d{position:relative;display:grid;place-items:center;height:var(--cell);border:0;background:none;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;cursor:pointer;transition:background .15s,transform .12s var(--ease)}
+.mm .d.out{color:var(--muted);opacity:.55}
+.mm .d.has::after{content:"";position:absolute;bottom:3px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--teal)}
+.mm .d.today{color:var(--teal);font-weight:800;box-shadow:inset 0 0 0 1.5px var(--teal)}
+.mm .d.sel{background:var(--teal);color:#fff;box-shadow:none}
+.mm .d.sel::after{background:#fff}
+.mm .d:active{transform:scale(.94)}
+@media (hover:hover) and (pointer:fine){.mm .d:not(.sel):hover{background:var(--bg-2)}.kib:hover{background:var(--bg-2)}}
+.kib{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:999px;background:none;color:var(--ink);cursor:pointer;transition:background .15s,transform .12s var(--ease)}
+.kib:active{transform:scale(.92)}
+/* big month in the Rekap card */
+.mm.big{--cell:48px}
+.mm.big .d{border-radius:10px;align-content:center;gap:1px;line-height:1.1}
+.mm.big .d.has::after{display:none}
+.mm.big .d em{font-style:normal;font-size:10.5px;font-weight:800;color:var(--teal)}
+.mm.big .d.has{background:color-mix(in srgb,var(--teal) calc(var(--lv,1)*7% + 6%),transparent)}
+.mm.big .d.sel em,.mm.big .d.has.sel em{color:#fff}
+.mm.big .d.today{box-shadow:inset 0 0 0 1.5px var(--teal)}
+.kcard .kmore{margin-top:10px;width:100%}
+/* calendar page */
+.kband{padding-bottom:40px}
+.kback{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--teal);text-decoration:none;margin-bottom:14px}
+.kal{display:grid;grid-template-columns:288px minmax(0,1fr);gap:16px;align-items:start}
+.kside{padding:16px;position:sticky;top:calc(var(--hdr,72px) + 16px)}
+.ksales{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.ksales h3{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:6px}
+.ksales label{display:flex;align-items:center;gap:10px;padding:7px 4px;font-size:14px;font-weight:600;cursor:pointer;border-radius:8px}
+.ksales label span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ksales label small{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.ksales input{width:18px;height:18px;margin:0;accent-color:var(--sc);flex:none}
+.ksales .none{font-size:13px;color:var(--muted)}
+.kday{padding:16px 18px 10px;min-width:0}
+.kbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.knav{display:flex;gap:2px}
+.kbar h1{font-size:22px;font-weight:800;letter-spacing:-.01em;text-transform:capitalize}
+.ksum{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 12px;font-size:14px;color:var(--muted)}
+.ksum .sc{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--sc) 12%,var(--panel));color:var(--ink);font-weight:700;font-size:13px}
+.ksum .sc i{width:8px;height:8px;border-radius:50%;background:var(--sc)}
+.kalg{border-top:1px solid var(--line)}
+.krow{display:grid;grid-template-columns:62px minmax(0,1fr);min-height:52px;border-bottom:1px solid var(--line-2)}
+.krow .hr{font-size:11.5px;font-weight:600;color:var(--muted);padding:6px 10px 0 0;text-align:right;font-variant-numeric:tabular-nums}
+.krow .ev{display:flex;flex-wrap:wrap;gap:6px;padding:5px 0 5px 8px;border-left:1px solid var(--line);min-width:0}
+.krow.allday{background:var(--bg-2)}
+.krow.allday .hr{padding-top:9px;line-height:1.2}
+.krow.now .hr{color:var(--bad);font-weight:800}
+.krow.now .ev{box-shadow:inset 0 2px 0 var(--bad)}
+.kev{--sc:#1a73e8;display:flex;flex-direction:column;align-items:flex-start;gap:2px;flex:1 1 230px;min-width:0;max-width:100%;padding:7px 10px;border:0;border-left:4px solid var(--sc);border-radius:8px;background:color-mix(in srgb,var(--sc) 13%,var(--panel));color:var(--ink);text-align:left;font-size:13px;cursor:pointer;transition:transform .12s var(--ease),background .15s}
+.kev b{font-size:13.5px;font-weight:700;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kev small{color:var(--muted);font-size:12px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kev:active{transform:scale(.985)}
+@media (hover:hover) and (pointer:fine){.kev:hover{background:color-mix(in srgb,var(--sc) 22%,var(--panel))}}
+.kempty{padding:28px 8px;text-align:center;color:var(--muted);font-size:14px}
+@media (max-width:900px){.kal{grid-template-columns:1fr}.kside{position:static}}
+@media (max-width:640px){
+  .kband .wrap{padding-inline:12px}
+  .kday{padding:12px 12px 6px}
+  .kbar h1{font-size:18px;flex-basis:100%;order:-1}
+  .krow{grid-template-columns:48px minmax(0,1fr)}
+  .kev{flex-basis:100%}
+  .mm.big{--cell:42px}
+}
+@media (prefers-reduced-motion:reduce){.mm .d,.kev,.kib{transition:none}}
+/* v31: photo off, someone-else warning, refresh button */
+.btn.is-off{opacity:.5;cursor:not-allowed;pointer-events:none}
+.fuwarn{margin:0 0 10px;padding:10px 12px;border-radius:10px;background:var(--warn-bg);color:var(--warn);font-size:13.5px;font-weight:600;line-height:1.45}
+.fuwarn b{font-weight:800}
+.syncb{display:inline-flex;align-items:center;gap:6px;margin-left:6px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--panel);color:var(--teal);font-size:12.5px;font-weight:700;vertical-align:middle;cursor:pointer;transition:transform .12s var(--ease),background .15s}
+.syncb:active{transform:scale(.95)}
+@media (hover:hover) and (pointer:fine){.syncb:hover{background:var(--teal-2)}}
+.syncb.busy svg{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:640px){.syncb span{display:none}.syncb{padding:5px 7px}}
+@media (prefers-reduced-motion:reduce){.syncb.busy svg{animation:none}}
 .brand-mark.logo{background:none;box-shadow:none;overflow:hidden;border-radius:10px}.brand-mark.logo img{width:100%;height:100%;display:block}
 </style>
 
@@ -926,6 +1007,28 @@ body{transition:none}
     </div>
   </section>
 </div>
+<div id="view-kalender" hidden>
+  <section class="vband kband">
+    <div class="wrap">
+      <a class="kback" href="#rekap" data-go="rekap"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Kembali ke Rekap</a>
+      <div class="kal">
+        <aside class="kside card">
+          <div id="kMini"></div>
+          <div class="ksales"><h3>Sales</h3><div id="kSales"></div></div>
+        </aside>
+        <div class="kday card">
+          <div class="kbar">
+            <button type="button" class="btn ghost sm" id="kToday">Hari ini</button>
+            <div class="knav"><button type="button" class="kib" id="kPrev" aria-label="Hari sebelumnya"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="kib" id="kNext" aria-label="Hari berikutnya"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+            <h1 id="kTitle" aria-live="polite"></h1>
+          </div>
+          <p class="ksum" id="kSum"></p>
+          <div id="kGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 <div id="view-rekap" hidden>
   <section class="vband">
     <div class="wrap">
@@ -937,6 +1040,7 @@ body{transition:none}
         <div class="card ncard"><h2 class="ich"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7.5 16v-5M12 16V8M16.5 16v-3"/></svg>Progres follow up</h2><div id="funnel"></div></div>
         <div class="card ncard"><h2 class="ich"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 7.5v9L12 21l9-4.5v-9Z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/></svg>Produk yang diminati</h2><div id="pmix"></div></div>
         <div class="card ncard"><h2 class="ich"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6.5 6.5 0 0 1 3.5 5.5"/></svg>Per Sales</h2><div id="salesRekap"></div></div>
+        <div class="card ncard kcard"><h2 class="ich"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>Kalender follow up</h2><p class="knote">Klik tanggal untuk melihat siapa saja yang follow up dan usaha apa saja.</p><div id="rkCal"></div></div>
       </div>
     </div>
   </section>
@@ -1139,7 +1243,7 @@ function rebuildPOIS(){
   POIS.forEach(p=>{const g=LOKASI[p.id];if(g&&isFinite(g.lat)&&isFinite(g.lng)){p.x=Math.round((g.lng-LNG0)*KX);p.y=Math.round(-(g.lat-LAT0)*KY);p.loc=1;p.gps=g;hydrate(p)}});
   BYID=Object.fromEntries(POIS.map(p=>[p.id,p]));MAXRING=Math.max(1,...POIS.map(p=>p.ring))}
 rebuildPOIS();
-addEventListener("poi-sync",e=>{const d=e.detail||{};storeNote();
+addEventListener("poi-sync",e=>{const d=e.detail||{};storeNote();if(d.type==="pulled")return;
   if(d.type==="queued")toast("Belum ada sinyal. Data disimpan di HP dan dikirim otomatis saat sinyal kembali.");
   else if(d.type==="sent")toast(`${d.n} data yang tertunda sudah terkirim`);
   else if(d.type==="dropped")toast(`${d.n} data tertunda ditolak server (password berubah atau data tidak valid). Ulangi dari web.`);
@@ -1193,9 +1297,23 @@ async function initStore(){
   Object.keys(LSK).forEach(c=>db.collection(c).onSnapshot(snap=>{const o={};snap.docs.forEach(d=>{o[d.id]=d.data()});setStore(c,o);if(c==="followups"){clearTimeout(timer);mode="shared";storeNote()}afterData(c)},()=>{if(c==="followups"){clearTimeout(timer);useLocal()}}));
 }
 function useLocal(){mode="local";db=null;Object.keys(LSK).forEach(c=>setStore(c,lsLoad(c)));rebuildPOIS();storeNote();renderAll()}
-function storeNote(){const pend=window.POI_PENDING||0,t=mode==="shared"&&pend?`${pend} data menunggu sinyal`:mode==="shared"?"Tersimpan bersama untuk semua Sales":mode==="local"?"Tersimpan di perangkat ini saja":"Menghubungkan…";
+function storeNote(){const pend=window.POI_PENDING||0,t=(mode==="shared"&&pend?`${pend} data menunggu sinyal`:mode==="shared"?"Tersimpan bersama untuk semua Sales":mode==="local"?"Tersimpan di perangkat ini saja":"Menghubungkan…")+(GH&&mode==="shared"&&window.POI_LAST?`, diperbarui ${agoSync()}`:"");
   ["#store1","#store2","#store3"].forEach(s=>{const el=$(s);if(!el)return;el.className="store "+(mode==="shared"?"shared":mode==="local"?"local":"");el.querySelector("span").textContent=t})}
+const agoSync=()=>{const s=(Date.now()-window.POI_LAST)/1000;return s<10?"baru saja":s<60?`${Math.round(s/5)*5} detik lalu`:`${Math.round(s/60)} menit lalu`};
+const SYNC_IC='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.6-4.5M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5M20 20v-4h-4"/></svg>';
+function addSyncButtons(){if(!GH||!window.POI_PULL)return;["#store1","#store2","#store3"].forEach(sel=>{const el=$(sel);if(!el||el.nextElementSibling&&el.nextElementSibling.classList.contains("syncb"))return;
+  const b=document.createElement("button");b.type="button";b.className="syncb";b.innerHTML=SYNC_IC+"<span>Muat ulang</span>";b.setAttribute("aria-label","Muat ulang data dari semua Sales");
+  b.onclick=async()=>{if(b.classList.contains("busy"))return;b.classList.add("busy");const ok=await pullNow(15000);b.classList.remove("busy");storeNote();toast(ok?"Data terbaru sudah dimuat":"Belum bisa memuat. Periksa sinyal lalu coba lagi.")};el.after(b)});
+  setInterval(storeNote,5000)}
 const saveFU=(id,data)=>putDoc("followups",id,data);
+const PHOTO_OFF=true;   // photo upload paused for now; the button stays visible
+const agoTxt=iso=>{const t=new Date(iso).getTime();if(!t)return "";const s=(Date.now()-t)/1000;return s<45?"baru saja":s<3600?`${Math.max(1,Math.round(s/60))} menit lalu`:s<86400?`${Math.round(s/3600)} jam lalu`:tgl(iso)};
+const myName=()=>{try{return localStorage.getItem("poi-bkl-rm")||""}catch(e){return ""}};
+const sameName=(a,b)=>(a||"").trim().replace(/\s+/g," ").toLowerCase()===(b||"").trim().replace(/\s+/g," ").toLowerCase();
+/* follow-up saved on the web by someone else (not by the name typed on this phone) */
+function otherFU(id,me){const g=FU[id];if(!g||g.cleared||!g.status||g.status==="belum")return null;if(g.rm&&sameName(g.rm,me))return null;return g}
+const fuWarnTxt=g=>`Sudah di-follow up oleh ${g.rm?`<b>${esc(g.rm)}</b>`:"Sales lain"}${g.updatedAt?`, ${agoTxt(g.updatedAt)}`:""} (${STATUS[g.status]}). Cek dulu supaya tidak menghubungi dua kali.`;
+const pullNow=(ms=6000)=>window.POI_PULL?Promise.race([window.POI_PULL().catch(()=>false),new Promise(r=>setTimeout(()=>r(false),ms))]):Promise.resolve(false);
 /* Sales names: managed in Tambah Data; until someone edits the list the two examples are shown */
 function salesStats(){const m={};Object.values(FU).forEach(f=>{if(!f||!f.rm||f.cleared)return;const k=f.rm.trim().replace(/\s+/g," ");if(!k)return;const kk=k.toLowerCase();const o=m[kk]=m[kk]||{n:k,total:0,win:0,tidak:0,ulang:0,last:""};o.total++;
     if(f.status==="tertarik"||f.status==="merchant")o.win++;else if(f.status==="tidak")o.tidak++;else if(f.status==="ulang")o.ulang++;const d=f.visitDate||f.updatedAt||"";if(d>o.last)o.last=d});
@@ -1441,15 +1559,15 @@ function openSheet(id,from){
       <div class="qacts"><button type="button" class="btn ghost sm qbtn qb-route${ROUTE.includes(id)?" on":""}" id="qRoute" aria-pressed="${ROUTE.includes(id)}">${ROUTE.includes(id)?"Di Panduan Arah":"+ Panduan Arah"}</button><button type="button" class="btn ghost sm qbtn qb-sd${p.sd?" on":""}" id="qSd" aria-pressed="${p.sd}">${p.sd?"Di Selling Day":"+ Selling Day"}</button><button type="button" class="btn ghost sm qbtn qb-edit" id="qEdit">Edit data</button>${GH?'<button type="button" class="btn ghost sm qbtn qb-gps" id="qGps"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Saya di lokasi ini</button>':""}</div>
       <p class="addr">${esc(p.a)}</p>${p.gps?`<p class="locnote ok">Titik dari GPS ${esc(p.gps.rm||"Sales")}${p.gps.updatedAt?`, ${tgl(p.gps.updatedAt)}`:""}.</p>`:p.loc>1?`<p class="locnote">Titik di peta adalah perkiraan dari ${p.loc===2?"nama jalan":"kelurahan"} karena alamatnya tidak punya koordinat. ${GH?"Kalau sedang di depan usahanya, tekan Saya di lokasi ini supaya titiknya tepat.":"Pakai tombol Google Maps untuk lokasi persisnya."}</p>`:""}</div>
     <div class="box"><h3 id="stLbl"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg>Hasil follow up</h3>
-      <div class="stset" id="stset" role="radiogroup" aria-labelledby="stLbl">${opts.map(o=>`<input type="radio" name="st" id="st-${o}" value="${o}" ${s===o?"checked":""}><label for="st-${o}" class="o-${o}">${STATUS[o]}</label>`).join("")}</div>
+      <p class="fuwarn" id="fuWarn" role="status" hidden></p><div class="stset" id="stset" role="radiogroup" aria-labelledby="stLbl">${opts.map(o=>`<input type="radio" name="st" id="st-${o}" value="${o}" ${s===o?"checked":""}><label for="st-${o}" class="o-${o}">${STATUS[o]}</label>`).join("")}</div>
       <p class="stnote" id="stNote"></p>
       <div class="sub-blk" id="okBlk" ${s==="tertarik"||s==="merchant"?"":"hidden"}><h3 id="prodLbl">Produk yang diminati</h3>${groups}<p class="err" id="errProd" hidden>Pilih minimal satu produk yang diminati.</p>
         <div class="fgrid"><label>Nama pemilik atau PIC<input id="picName" value="${esc(f.picName||"")}" placeholder="Bu Rina" autocomplete="off"></label><label>Nomor HP yang bisa dihubungi<input id="picPhone" inputmode="tel" value="${esc(f.picPhone||(isMobile(p.ph)?p.ph:""))}" placeholder="0812-3456-7890" autocomplete="off"></label></div>
         <p class="err" id="errPhone" hidden>Isi nomor HP supaya bisa dihubungi lagi.</p></div>
       <div class="sub-blk" id="noBlk" ${s==="tidak"?"":"hidden"}><h3 id="whyLbl">Alasan tidak tertarik</h3><div class="reasons" role="group" aria-labelledby="whyLbl">${REASONS.map(r=>`<button type="button" aria-pressed="${f.reason===r}" data-r="${esc(r)}">${esc(r)}</button>`).join("")}</div></div>
-      <div class="fgrid"><label>Nama Sales<input id="rmName" value="${esc(f.rm||rm)}" placeholder="Nama kamu" autocomplete="name"></label><label>Tanggal dihubungi<input type="date" id="visitDate" value="${esc(f.visitDate||today())}"></label>
+      <div class="fgrid"><label>Nama Sales<input id="rmName" value="${esc(rm||f.rm||"")}" placeholder="Nama kamu" autocomplete="name"></label><label>Tanggal dihubungi<input type="date" id="visitDate" value="${esc(f.visitDate||today())}"></label>
         <label class="full" id="nextWrap" ${s==="tertarik"||s==="ulang"?"":"hidden"}>Rencana tindak lanjut<input type="date" id="nextDate" value="${esc(f.nextDate||"")}"></label>
-        <label class="full">Catatan<textarea id="note" placeholder="Pemilik ada di toko setelah jam 2 siang. Sudah pakai QRIS bank lain.">${esc(src==="file"?"":(f.note||""))}</textarea></label>${window.POI_UPLOAD?`<div class="full photo"><span class="plbl">Foto kunjungan <em>opsional</em></span><div class="phrow"><img id="phPrev" alt="" hidden>${f.photo?`<a class="btn ghost sm" href="${esc(f.photo)}" target="_blank" rel="noopener">Lihat foto tersimpan</a>`:f.photoPending?'<span class="muted">Foto menunggu sinyal</span>':""}<label class="btn ghost sm" for="phIn">${f.photo?"Ganti foto":"Ambil atau pilih foto"}</label><input type="file" id="phIn" accept="image/*" class="sr"><button type="button" class="btn ghost sm danger" id="phDel" hidden>Batal</button></div><span class="phinfo" id="phInfo"></span></div>`:""}</div>
+        <label class="full">Catatan<textarea id="note" placeholder="Pemilik ada di toko setelah jam 2 siang. Sudah pakai QRIS bank lain.">${esc(src==="file"?"":(f.note||""))}</textarea></label>${window.POI_UPLOAD?`<div class="full photo"><span class="plbl">Foto kunjungan <em>opsional</em></span><div class="phrow"><img id="phPrev" alt="" hidden>${f.photo?`<a class="btn ghost sm" href="${esc(f.photo)}" target="_blank" rel="noopener">Lihat foto tersimpan</a>`:f.photoPending?'<span class="muted">Foto menunggu sinyal</span>':""}<label class="btn ghost sm${PHOTO_OFF?" is-off":""}" for="phIn"${PHOTO_OFF?" aria-disabled=true":""}>${f.photo?"Ganti foto":"Ambil atau pilih foto"}</label><input type="file" id="phIn" accept="image/*" class="sr"${PHOTO_OFF?" disabled":""}><button type="button" class="btn ghost sm danger" id="phDel" hidden>Batal</button></div><span class="phinfo" id="phInfo">${PHOTO_OFF?"Fitur foto sementara dinonaktifkan.":""}</span></div>`:""}</div>
     </div>
   </form>
   <div class="sfoot"><span class="muted">${src==="web"&&f.updatedAt?`Terakhir diperbarui ${tgl(f.updatedAt)}${f.rm?` oleh ${esc(f.rm)}`:""}.`:src==="file"?"Hasil dari file Excel POI.":"Belum ada catatan."}</span>${s!=="belum"?'<button type="button" class="btn ghost sm danger" id="clearBtn">Hapus follow up</button>':""}<button type="submit" form="fuForm" class="btn primary" id="saveBtn">Simpan</button></div>`;
@@ -1476,6 +1594,9 @@ function openSheet(id,from){
       catch(e){PHOTO=null;$("#phInfo").textContent="Foto tidak bisa dibaca. Coba foto lain."}};
     $("#phDel").onclick=()=>{PHOTO=null;phIn.value="";$("#phPrev").hidden=true;$("#phDel").hidden=true;$("#phInfo").textContent=""}}
   const cb=$("#clearBtn");if(cb)cb.onclick=async()=>{cb.disabled=true;try{await clearFU(id);done()}catch(err){cb.disabled=false;toast("Gagal menghapus. Periksa koneksi lalu coba lagi.")}};
+  const seenAt=(FU[id]&&FU[id].updatedAt)||"";
+  const showWarn=()=>{const w=$("#fuWarn");if(!w||curId!==id)return;const g=otherFU(id,myName());w.hidden=!g;if(g)w.innerHTML=fuWarnTxt(g)};
+  showWarn();if(window.POI_PULL)pullNow().then(showWarn);
   $("#fuForm").onsubmit=async e=>{e.preventDefault();
     const st=$("#stset input:checked").value,withP=st==="tertarik"||st==="merchant",products=withP?$$("#okBlk input:checked").map(i=>i.value):[],picPhone=$("#picPhone").value.trim();
     let bad=false;if(st==="tertarik"&&!products.length){$("#errProd").hidden=false;bad=true}if(st==="tertarik"&&!picPhone){$("#errPhone").hidden=false;bad=true}
@@ -1484,7 +1605,11 @@ function openSheet(id,from){
     const rb=$('.reasons button[aria-pressed="true"]');
     const data={...(f.photo?{photo:f.photo,photoAt:f.photoAt}:{}),status:st,products,picName:withP?$("#picName").value.trim():"",picPhone:withP?picPhone:"",nextDate:(st==="tertarik"||st==="ulang")?$("#nextDate").value:"",reason:st==="tidak"&&rb?rb.dataset.r:"",rm:rmv,visitDate:$("#visitDate").value,note:$("#note").value.trim()};
     if(st==="belum"&&p.seed)data.cleared=true;
-    const btn=$("#saveBtn");btn.disabled=true;btn.textContent="Menyimpan…";
+    const btn=$("#saveBtn");btn.disabled=true;
+    if(window.POI_PULL){btn.textContent="Memeriksa data terbaru…";await pullNow();const g=FU[id];
+      if(g&&(g.updatedAt||"")!==seenAt&&!sameName(g.rm,rmv)&&!g.cleared&&g.status&&g.status!=="belum"){showWarn();
+        if(!confirm(`${p.n} baru saja di-follow up oleh ${g.rm||"Sales lain"} (${STATUS[g.status]}, ${agoTxt(g.updatedAt)}).\n\nTetap simpan dan timpa hasil itu?`)){btn.disabled=false;btn.textContent="Simpan";return}}}
+    btn.textContent="Menyimpan…";
     try{await saveFU(id,data);if(PHOTO&&window.POI_UPLOAD){btn.textContent="Mengirim foto…";try{await window.POI_UPLOAD({id,name:p.n,data:PHOTO})}catch(e){toast("Follow up tersimpan, tetapi foto gagal dikirim. Coba simpan lagi dengan foto.");done();return}}toast(OFFMAP.has(st)?`${p.n} disimpan dan dikeluarkan dari peta`:`Follow up ${p.n} disimpan`);done()}
     catch(err){toast(err&&err.code==="permission_denied"?"Kamu belum punya izin mengubah data ini. Minta akses edit ke pemilik halaman.":"Gagal menyimpan. Periksa koneksi lalu coba lagi.");btn.disabled=false;btn.textContent="Simpan"}};
 }
@@ -1533,7 +1658,7 @@ let RP=1;
 function renderSalesRekap(){const S=salesStats();
   $("#salesRekap").innerHTML=S.length?`<div class="stable"><div class="sh"><span>Nama</span><span>Follow up</span><span>Tertarik</span><span>Tidak</span><span>Ulang</span></div>${S.map(o=>`<div><span><b>${esc(o.n)}</b>${o.last?`<small>terakhir ${tgl(o.last)}</small>`:""}</span><span class="num">${nf(o.total)}</span><span class="num">${nf(o.win)}</span><span class="num">${nf(o.tidak)}</span><span class="num">${nf(o.ulang)}</span></div>`).join("")}</div>`
     :'<p style="font-size:14px;color:var(--muted);margin-top:8px">Muncul setelah Sales menyimpan follow up dengan namanya.</p>'}
-function renderRekap(){renderSalesRekap();
+function renderRekap(){renderSalesRekap();renderRkCal();
   const c=counts(POIS),n=POIS.length;
   $("#funnel").innerHTML=[["POI di data",n,"linear-gradient(90deg,#00707f,#00a3a8)"],["Sudah di-follow up",c.done,"var(--teal-3)"],["Tertarik atau merchant",c.win,"var(--orange)"],["Masih di peta",c.map,"var(--g-lainnya)"]].map(([l,v,col])=>`<div class="fstep"><span>${l}</span><span class="bar"><i style="background:${col};width:${n?Math.max(v?1.5:0,v/n*100):0}%"></i></span><b>${nf(v)}</b></div>`).join("")
     +`<div class="stsum">${ST_ORDER.filter(k=>k!=="belum").map(k=>`<span class="pill ${k}">${STATUS[k]} <b>${nf(c[k])}</b></span>`).join("")}</div>`;
@@ -1849,8 +1974,60 @@ function renderLokasi(){const all=lkAll(),sel=$("#lkKec"),q=$("#lkQ").value.trim
   $$("#lkList [data-open]").forEach(b=>b.onclick=()=>openSheet(b.dataset.open,b));
   const m=$("#lkMore");if(m)m.onclick=()=>{lkPage++;renderLokasi()}}
 $("#lkKec").onchange=()=>{lkPage=1;renderLokasi()};let lkT=0;$("#lkQ").oninput=()=>{clearTimeout(lkT);lkT=setTimeout(()=>{lkPage=1;renderLokasi()},200)};
+/* ---------- follow-up calendar ---------- */
+const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const todayL=()=>ymd(new Date());
+const SCOL=["#1a73e8","#e0571f","#0b8043","#8e24aa","#d81b60","#039be5","#b26a00","#3f51b5","#33a37a","#795548"];
+let KD=todayL(),KM=KD.slice(0,7),RKM=KM;const KHIDE=new Set();
+const skey=n=>(n||"").trim().replace(/\s+/g," ").toLowerCase();
+function fuEvents(){const out=[];POIS.forEach(p=>{const f=fuOf(p.id);if(!f||!f.status||f.status==="belum"||f.cleared)return;
+    let d=/^\d{4}-\d{2}-\d{2}$/.test(f.visitDate||"")?f.visitDate:"",t="";
+    if(f.updatedAt){const u=new Date(f.updatedAt);if(!isNaN(u)){const ud=ymd(u);if(!d)d=ud;if(ud===d)t=`${String(u.getHours()).padStart(2,"0")}.${String(u.getMinutes()).padStart(2,"0")}`}}
+    if(!d)return;const rm=(f.rm||"").trim().replace(/\s+/g," ");out.push({p,f,d,t,rm,k:skey(rm)})});
+  return out}
+function salesColors(ev){const names={};ev.forEach(e=>{if(!(e.k in names))names[e.k]=e.rm||"Tanpa nama"});
+  const ks=Object.keys(names).sort((a,b)=>(a===""?1:b===""?-1:a.localeCompare(b,"id")));const col={};ks.forEach((k,i)=>col[k]=k===""?"#7d8f95":SCOL[i%SCOL.length]);return {names,col,ks}}
+const monthName=ym=>new Date(ym+"-01T00:00").toLocaleDateString("id-ID",{month:"long",year:"numeric"});
+const addMonth=(ym,n)=>{const d=new Date(ym+"-01T00:00");d.setMonth(d.getMonth()+n);return ymd(d).slice(0,7)};
+function miniMonth(ym,sel,cnt,big){const first=new Date(ym+"-01T00:00"),start=new Date(first);start.setDate(1-((first.getDay()+6)%7));
+  const mx=Math.max(1,...Object.values(cnt)),td=todayL();let cells="";
+  for(let i=0;i<42;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=ymd(d),n=cnt[k]||0,out=k.slice(0,7)!==ym;
+    if(i===35&&out)break;
+    cells+=`<button type="button" class="d${out?" out":""}${n?" has":""}${k===td?" today":""}${k===sel?" sel":""}" data-day="${k}" style="--lv:${Math.ceil(n/mx*4)}" aria-label="${d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}${n?`, ${n} follow up`:""}"${k===sel?' aria-current="date"':""}>${d.getDate()}${big&&n?`<em>${n}</em>`:""}</button>`}
+  return `<div class="mm${big?" big":""}"><div class="mmh"><b>${monthName(ym)}</b><button type="button" class="kib" data-mm="-1" aria-label="Bulan sebelumnya"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" class="kib" data-mm="1" aria-label="Bulan berikutnya"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    <div class="mmg">${["Sen","Sel","Rab","Kam","Jum","Sab","Min"].map(w=>`<span class="wd">${w}</span>`).join("")}${cells}</div></div>`}
+function renderRkCal(){const ev=fuEvents(),c={};ev.forEach(e=>c[e.d]=(c[e.d]||0)+1);const inM=ev.filter(e=>e.d.startsWith(RKM)).length;
+  $("#rkCal").innerHTML=miniMonth(RKM,"",c,true)+`<button type="button" class="btn ghost sm kmore" id="rkOpen">Buka kalender${inM?` (${nf(inM)} follow up di bulan ini)`:""}</button>`;
+  $$("#rkCal [data-mm]").forEach(b=>b.onclick=()=>{RKM=addMonth(RKM,+b.dataset.mm);renderRkCal()});
+  $$("#rkCal [data-day]").forEach(b=>b.onclick=()=>{KD=b.dataset.day;KM=KD.slice(0,7);go("kalender")});
+  $("#rkOpen").onclick=()=>{const td=todayL();KD=RKM===td.slice(0,7)?td:RKM+"-01";KM=RKM;go("kalender")}}
+function renderKal(){const ev=fuEvents(),{names,col,ks}=salesColors(ev);
+  const vis=ev.filter(e=>!KHIDE.has(e.k)),c={};vis.forEach(e=>c[e.d]=(c[e.d]||0)+1);
+  $("#kMini").innerHTML=miniMonth(KM,KD,c,false);
+  $$("#kMini [data-mm]").forEach(b=>b.onclick=()=>{KM=addMonth(KM,+b.dataset.mm);renderKal()});
+  $$("#kMini [data-day]").forEach(b=>b.onclick=()=>{KD=b.dataset.day;KM=KD.slice(0,7);renderKal()});
+  const dayAll=ev.filter(e=>e.d===KD),day=dayAll.filter(e=>!KHIDE.has(e.k));
+  const perDay={};dayAll.forEach(e=>perDay[e.k]=(perDay[e.k]||0)+1);
+  $("#kSales").innerHTML=ks.length?ks.map(k=>`<label style="--sc:${col[k]}"><input type="checkbox" value="${esc(k)}"${KHIDE.has(k)?"":" checked"}><span>${esc(names[k])}</span><small>${perDay[k]||""}</small></label>`).join("")
+    :'<p class="none">Nama Sales muncul di sini setelah ada follow up.</p>';
+  $$("#kSales input").forEach(i=>i.onchange=()=>{if(i.checked)KHIDE.delete(i.value);else KHIDE.add(i.value);renderKal()});
+  const dd=new Date(KD+"T00:00");$("#kTitle").textContent=dd.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  const by={};day.forEach(e=>(by[e.k]=by[e.k]||[]).push(e));const win=day.filter(e=>e.f.status==="tertarik"||e.f.status==="merchant").length;
+  $("#kSum").innerHTML=day.length?`<span>${nf(day.length)} follow up oleh ${Object.keys(by).length} Sales${win?`, ${win} tertarik atau merchant`:""}.</span>`+Object.keys(by).sort((a,b)=>by[b].length-by[a].length).map(k=>`<span class="sc" style="--sc:${col[k]}"><i></i>${esc(names[k])} ${by[k].length}</span>`).join(""):"";
+  const evh=e=>`<button type="button" class="kev" data-open="${e.p.id}" style="--sc:${col[e.k]}"><b>${esc(e.p.n)}</b><small>${esc(e.rm||"Tanpa nama")} · ${STATUS[e.f.status]}${e.t?" · "+e.t:""}</small><small>${esc(catLabel(e.p.k))}, ${esc(e.p.kec)}</small></button>`;
+  const timed=day.filter(e=>e.t).sort((a,b)=>a.t.localeCompare(b.t)),allday=day.filter(e=>!e.t).sort((a,b)=>a.p.n.localeCompare(b.p.n,"id"));
+  const hrs=timed.map(e=>+e.t.slice(0,2)),h0=Math.min(7,...hrs),h1=Math.max(19,...hrs),nowH=KD===todayL()?new Date().getHours():-1;
+  let g="";if(allday.length)g+=`<div class="krow allday"><span class="hr">Tanpa jam</span><div class="ev">${allday.map(evh).join("")}</div></div>`;
+  for(let h=h0;h<=h1;h++){const L=timed.filter(e=>+e.t.slice(0,2)===h);g+=`<div class="krow${h===nowH?" now":""}"><span class="hr">${String(h).padStart(2,"0")}.00</span><div class="ev">${L.map(evh).join("")}</div></div>`}
+  $("#kGrid").innerHTML=(day.length?"":`<p class="kempty">${dayAll.length?"Follow up di tanggal ini disembunyikan. Centang nama Sales di samping untuk menampilkan.":"Belum ada follow up di tanggal ini."}</p>`)+`<div class="kalg">${g}</div>`;
+  $$("#kGrid [data-open]").forEach(b=>b.onclick=()=>openSheet(b.dataset.open,b))}
+function kShift(n){const d=new Date(KD+"T00:00");d.setDate(d.getDate()+n);KD=ymd(d);KM=KD.slice(0,7);renderKal()}
+$("#kPrev").onclick=()=>kShift(-1);$("#kNext").onclick=()=>kShift(1);$("#kToday").onclick=()=>{KD=todayL();KM=KD.slice(0,7);renderKal()};
+document.addEventListener("keydown",e=>{if(VIEW!=="kalender"||e.altKey||e.ctrlKey||e.metaKey)return;const t=e.target;if(t&&t.matches&&t.matches("input,textarea,select"))return;if(!$("#sheet").hidden)return;
+  if(e.key==="ArrowLeft"){kShift(-1);e.preventDefault()}else if(e.key==="ArrowRight"){kShift(1);e.preventDefault()}});
+addSyncButtons();
 /* ---------- routing ---------- */
-const VIEWS=["beranda","daftar","selling","arah","lokasi","rekap","tambah"];
+const VIEWS=["beranda","daftar","selling","arah","lokasi","rekap","kalender","tambah"];
 let VIEW=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):"beranda";
 let listInit=false;
 function go(v){VIEW=v;try{if(location.hash!=="#"+v)history.pushState(null,"","#"+v)}catch(e){}route();window.scrollTo(0,0)}
@@ -1859,16 +2036,17 @@ function route(){
   const ae=document.activeElement;if(ae&&ae.matches&&ae.matches("input,textarea,select")&&!ae.closest("#sheet,dialog"))ae.blur();
   if(DET&&VIEW!=="daftar"&&listMap){leaveDetail();if(DET_V)listMap.goTo(DET_V)}
   VIEWS.forEach(v=>$("#view-"+v).hidden=v!==VIEW);
-  $$(".topnav a").forEach(a=>{if(a.dataset.go===VIEW)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  const navV=VIEW==="kalender"?"rekap":VIEW;$$(".topnav a").forEach(a=>{if(a.dataset.go===navV)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(VIEW==="beranda"){renderHomeKpi()}
   if(VIEW==="daftar"){if(!listInit){listInit=true;listMap=makeMap($("#listMap"),$("#listCtl"),{extent:EXT,colorBy:"g",onMany:(ids,el)=>openChooser(ids,el),onPick:(id,el)=>openSheet(id,el),pad:()=>({l:20,t:20,r:64,b:20})});listMap.fit();listMap.render()}renderRingBtns();if(DET)renderListKpi();else{refreshList(true);listMap.setRingHi(F.ring,true)}}
   if(VIEW==="rekap")renderRekap();
+  if(VIEW==="kalender")renderKal();
   if(VIEW==="lokasi"){lkPage=1;renderLokasi()}
   if(VIEW==="selling")renderSelling();
   if(VIEW==="arah")renderRoute();
   if(VIEW==="tambah"){applyLock();if(tUnlocked)renderTambah();else if(FINE)setTimeout(()=>$("#lockPw").focus(),50)}
 }
-function renderAll(){renderHomeKpi();renderLokasiTile();if(VIEW==="lokasi")renderLokasi();renderCats();renderRingRows();renderSd();if(HF.done||HF.groups.size!==GROUPS.length)applyHomeFilter();else homeMap.render();if(listInit){listMap.render();if(VIEW==="daftar"){if(DET)renderListKpi();else refreshList()}}if(VIEW==="rekap")renderRekap();if(VIEW==="selling")renderSelling();if(VIEW==="arah")renderRoute();if(VIEW==="tambah"&&tUnlocked)renderTambah();if(routeMap)routeMap.render();if(pickMap)pickMap.render()}
+function renderAll(){renderHomeKpi();renderLokasiTile();if(VIEW==="lokasi")renderLokasi();renderCats();renderRingRows();renderSd();if(HF.done||HF.groups.size!==GROUPS.length)applyHomeFilter();else homeMap.render();if(listInit){listMap.render();if(VIEW==="daftar"){if(DET)renderListKpi();else refreshList()}}if(VIEW==="rekap")renderRekap();if(VIEW==="kalender")renderKal();if(VIEW==="selling")renderSelling();if(VIEW==="arah")renderRoute();if(VIEW==="tambah"&&tUnlocked)renderTambah();if(routeMap)routeMap.render();if(pickMap)pickMap.render()}
 document.addEventListener("click",e=>{const a=e.target.closest("[data-go]");if(!a)return;e.preventDefault();if(a.dataset.go==="daftar"&&!a.closest("#ringRows")){F.ring=0;F.page=1}go(a.dataset.go)});
 addEventListener("popstate",()=>{const h=location.hash.slice(1);VIEW=VIEWS.includes(h)?h:"beranda";route()});
 addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(VIEWS.includes(h)&&h!==VIEW){VIEW=h;route()}});
