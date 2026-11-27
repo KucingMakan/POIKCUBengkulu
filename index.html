@@ -63,6 +63,12 @@ button{cursor:pointer}
 .brand-txt{display:flex;flex-direction:column;line-height:1.15;min-width:0}
 .brand-txt b{font-size:15.5px;font-weight:800;white-space:nowrap}
 .brand-txt span{font-size:12px;color:var(--muted);white-space:nowrap}
+/* credit line: three lines share the logo height */
+.brand-mark{width:40px;height:40px}
+.brand-txt{height:40px;justify-content:space-between}
+.brand-txt b{line-height:16px}.brand-txt span{line-height:13px}
+.brand-by{font-size:9px;line-height:10px;color:var(--muted);white-space:nowrap}
+.brand-by strong{color:var(--teal);font-weight:800}
 .topnav{display:flex;gap:2px;padding:4px;background:var(--bg-2);border-radius:999px}
 .topnav a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:700;padding:7px 14px;border-radius:999px;white-space:nowrap;transition:background .2s,color .2s}
 @media (hover:hover) and (pointer:fine){.topnav a:hover{color:var(--ink)}}
@@ -645,6 +651,7 @@ body{transition:none}
   .brand-txt{display:flex}
   .brand-txt b{font-size:15px}
   .brand-mark{width:34px;height:34px;border-radius:11px}
+  .brand-txt{height:auto;gap:3px}
   .top-dl{display:grid}
   /* bottom tab bar */
   .topnav{position:fixed;left:0;right:0;bottom:0;z-index:60;width:auto;max-width:none;order:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;padding:6px max(4px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(4px,env(safe-area-inset-left,0px));background:var(--panel);border-radius:0;border-top:1px solid var(--line);box-shadow:0 -6px 20px -12px rgba(13,58,66,.25);overflow:visible}
@@ -886,7 +893,7 @@ body{transition:none}
   <div class="wrap">
     <a class="brand" href="#beranda" data-go="beranda" aria-label="Radar POI KC Bengkulu, beranda">
       <span class="brand-mark logo" aria-hidden="true"><img src="logo-bni.png" alt="" width="38" height="38"></span>
-      <span class="brand-txt"><b>Radar POI KC Bengkulu</b><span>Peta dan follow up usaha KC Bengkulu</span></span>
+      <span class="brand-txt"><b>Radar POI KC Bengkulu</b><span>Peta dan follow up usaha KC Bengkulu</span><small class="brand-by">Dibuat oleh <strong>Alifian</strong></small></span>
     </a>
     <nav class="topnav" aria-label="Navigasi utama">
       <a class="opt" href="#beranda" data-go="beranda"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v11h14V9"/><path d="M10 20v-6h4v6"/></svg><span class="nl">Beranda</span></a>
