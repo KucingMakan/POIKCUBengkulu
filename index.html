@@ -1306,7 +1306,7 @@ function addSyncButtons(){if(!GH||!window.POI_PULL)return;["#store1","#store2","
   b.onclick=async()=>{if(b.classList.contains("busy"))return;b.classList.add("busy");const ok=await pullNow(15000);b.classList.remove("busy");storeNote();toast(ok?"Data terbaru sudah dimuat":"Belum bisa memuat. Periksa sinyal lalu coba lagi.")};el.after(b)});
   setInterval(storeNote,5000)}
 const saveFU=(id,data)=>putDoc("followups",id,data);
-const PHOTO_OFF=true;   // photo upload paused for now; the button stays visible
+const PHOTO_OFF=false;   // photo upload paused for now; the button stays visible
 const agoTxt=iso=>{const t=new Date(iso).getTime();if(!t)return "";const s=(Date.now()-t)/1000;return s<45?"baru saja":s<3600?`${Math.max(1,Math.round(s/60))} menit lalu`:s<86400?`${Math.round(s/3600)} jam lalu`:tgl(iso)};
 const myName=()=>{try{return localStorage.getItem("poi-bkl-rm")||""}catch(e){return ""}};
 const sameName=(a,b)=>(a||"").trim().replace(/\s+/g," ").toLowerCase()===(b||"").trim().replace(/\s+/g," ").toLowerCase();
@@ -1671,7 +1671,7 @@ function renderRekap(){renderSalesRekap();renderRkCal();
     ${withP&&(x.products||[]).length?`<div style="display:flex;flex-wrap:wrap;gap:5px">${(x.products||[]).map(id=>PROD[id]?`<span class="tag ${PROD[id].g}">${esc(PROD[id].n)}</span>`:"").join("")}</div>`:""}
     ${withP&&(x.picName||x.picPhone)?`<div class="pic"><span>PIC <b>${esc(x.picName||"-")}</b></span><span>HP <b>${esc(x.picPhone||"-")}</b></span>${x.nextDate?`<span>Tindak lanjut <b>${tgl(x.nextDate)}</b></span>`:""}</div>`:""}
     ${s==="tidak"&&x.reason?`<div class="pic"><span>Alasan <b>${esc(x.reason)}</b></span></div>`:""}${s==="ulang"&&x.nextDate?`<div class="pic"><span>Hubungi lagi <b>${tgl(x.nextDate)}</b></span></div>`:""}
-    ${x.note?`<p class="ket">${esc(x.note)}</p>`:""}<div class="acts"><button type="button" class="btn ghost sm" data-open="${p.id}">Buka detail</button><button type="button" class="btn ghost sm danger" data-clear="${p.id}">Hapus follow up</button></div></article>`}).join("")}</div>${all.length>list.length?`<div class="more" style="padding:16px 0 0"><button type="button" class="btn ghost sm" id="rMore">Tampilkan ${Math.min(24,all.length-list.length)} lagi (sisa ${nf(all.length-list.length)})</button></div>`:""}`
+    ${x.note?`<p class="ket">${esc(x.note)}</p>`:""}<div class="acts"><button type="button" class="btn ghost sm" data-open="${p.id}">Buka detail</button>${x.photo?`<a class="btn ghost sm" href="${esc(x.photo)}" target="_blank" rel="noopener">Lihat foto</a>`:""}<button type="button" class="btn ghost sm danger" data-clear="${p.id}">Hapus follow up</button></div></article>`}).join("")}</div>${all.length>list.length?`<div class="more" style="padding:16px 0 0"><button type="button" class="btn ghost sm" id="rMore">Tampilkan ${Math.min(24,all.length-list.length)} lagi (sisa ${nf(all.length-list.length)})</button></div>`:""}`
     :`<div class="card empty" style="margin:0"><b>Belum ada follow up di kategori ini</b>Buka daftar POI, pilih usaha, lalu simpan hasil follow up-nya. <a href="#daftar" data-go="daftar">Buka daftar POI</a></div>`;
   $$("#rList [data-open]").forEach(b=>b.onclick=()=>openSheet(b.dataset.open,b));
   $$("#rList [data-clear]").forEach(b=>b.onclick=async()=>{b.disabled=true;try{await clearFU(b.dataset.clear)}catch(e){b.disabled=false;toast("Gagal menghapus. Periksa koneksi lalu coba lagi.")}});
